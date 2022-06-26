@@ -21,44 +21,34 @@ public class TaskController {
     private final TaskMapper taskMapper;
 
     @GetMapping
-    public List<TaskDto> getTasks() {
+    public ResponseEntity<List<TaskDto>> getTasks() {
         List<Task> tasks = service.getAllTasks();
-        return taskMapper.mapToTaskDtoList(tasks);
+        return ResponseEntity.ok(taskMapper.mapToTaskDtoList(tasks));
     }
-
-//    @GetMapping(value = "{taskId}")
-//    public TaskDto getTask(@PathVariable Long taskId) {
-//        if (service.getTask(taskId).isPresent()){
-//            Task task = service.getTask(taskId).get();
-//            return taskMapper.mapToTaskDto(task);
-//        }
-//        return taskMapper.mapToTaskDto(new Task());
-//    }
 
     @GetMapping(value = "{taskId}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Long taskId) throws TaskNotFoundException {
-        try{
-            return new ResponseEntity<>(taskMapper.mapToTaskDto(service.getTask(taskId)), HttpStatus.OK);
-        }
-        catch (TaskNotFoundException e) {
-            return new ResponseEntity<>(new TaskDto(0L, "There is no task with id:" + taskId, ""), HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(taskMapper.mapToTaskDto(service.getTask(taskId)));
     }
 
 
-    @DeleteMapping
-    public void deleteTask(Long taskId) {
-
+    @DeleteMapping(value = "{taskId}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long taskId) throws TaskNotFoundException {
+        service.deleteTask(taskId);
+        return ResponseEntity.ok("Task with id " + taskId + " deleted successfully");
     }
 
     @PutMapping
-    public TaskDto updateTask(TaskDto taskDto) {
-        return new TaskDto(1L, "Edited test title", "Test content");
+    public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto) {
+        Task task = taskMapper.mapToTask(taskDto);
+        Task savedTask = service.saveTask(task);
+        return ResponseEntity.ok(taskMapper.mapToTaskDto(savedTask));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<Void> createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
+        return ResponseEntity.ok().build();
     }
 }
