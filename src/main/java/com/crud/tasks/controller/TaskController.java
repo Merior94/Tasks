@@ -14,8 +14,8 @@ public class TaskController {
         return new ArrayList<>();
     }
 
-    @GetMapping(value = "{id}")
-    public TaskDto getTask(@PathVariable("id") Long taskId) {
+    @GetMapping(value = "{taskId}")
+    public TaskDto getTask(@PathVariable Long taskId) {
         switch (taskId.intValue()) {
             case 1:
                 return new TaskDto(1L, "test title1", "test_content1");
@@ -31,12 +31,12 @@ public class TaskController {
 
     }
 
-    @PostMapping
+    @PutMapping
     public TaskDto updateTask(TaskDto taskDto) {
         return new TaskDto(1L, "Edited test title", "Test content");
     }
 
-    @PutMapping
+    @PostMapping
     public void createTask(TaskDto taskDto) {
 
     }
