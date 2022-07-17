@@ -27,21 +27,22 @@ class SimpleEmailServiceTest {
     @Test
     public void shouldSendEmail(){
         //Given
-        Mail mail = new Mail("test@test.com", Optional.empty(),"Test", "Test Message");
+//        Mail mail = new Mail("test@test.com", "Test", "Test Message",null);
 
-//        Mail mail = Mail.builder()
-//                .mailTo("test@test.com")
-//                //.toCc(Optional.of("cc@test.com"))
-//                .subject("Test")
-//                .message("Test message")
-//                .build();
+        Mail mail = Mail.builder()
+                .mailTo("test@test.com")
+                //.toCc(Optional.of("cc@test.com"))
+                .subject("Test")
+                .message("Test message")
+                .build();
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
-        if (mail.getToCc().isPresent()) {
-            mailMessage.setCc(mail.getToCc().get());
+
+        if (Optional.ofNullable(mail.getToCc()).isPresent()){
+            mailMessage.setCc(mail.getToCc());
         }
-        //mailMessage.setCc(mail.getToCc().orElse(""));
+
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
 

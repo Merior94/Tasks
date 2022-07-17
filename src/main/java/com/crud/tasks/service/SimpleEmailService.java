@@ -3,6 +3,7 @@ package com.crud.tasks.service;
 import com.crud.tasks.domain.Mail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -32,12 +33,14 @@ public class SimpleEmailService {
     private SimpleMailMessage createMailMessage(final Mail mail) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(mail.getMailTo());
-        if (mail.getToCc().isPresent()) {
-            mailMessage.setCc(mail.getToCc().get());
+
+        if (Optional.ofNullable(mail.getToCc()).isPresent()) {
+            mailMessage.setCc(mail.getToCc());
         }
-        //mailMessage.setCc(mail.getToCc().orElse(""));
+
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+
         return mailMessage;
     }
 }
