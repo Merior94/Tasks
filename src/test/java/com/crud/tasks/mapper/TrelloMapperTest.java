@@ -11,10 +11,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class TrelloMapperTestSuite {
+public class TrelloMapperTest {
 
     @Autowired
-    TrelloMapper trelloMapper;
+    private TrelloMapper trelloMapper;
 
     @Test
     void testMapToBoardDtoList(){

@@ -24,21 +24,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'io.springfox:springfox-swagger2:2.9.2'
 	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-	//implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	runtimeOnly 'mysql:mysql-connector-java'
-	runtimeOnly 'org.postgresql:postgresql:42.4.0'
+	runtimeOnly 'org.postgresql:postgresql:42.5.0'
 
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.google.code.gson:gson'
 	testCompileOnly 'org.projectlombok:lombok:1.18.24'
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 //	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-
-
 }
 
 tasks.named('test') {

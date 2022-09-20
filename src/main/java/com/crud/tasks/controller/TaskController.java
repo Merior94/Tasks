@@ -5,12 +5,9 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class TaskController {
+
     private final DbService service;
     private final TaskMapper taskMapper;
 
@@ -39,7 +37,7 @@ public class TaskController {
         return ResponseEntity.ok("Task with id " + taskId + " deleted successfully");
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         Task savedTask = service.saveTask(task);
